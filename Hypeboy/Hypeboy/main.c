@@ -1,0 +1,232 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+FILE* pFile;
+
+#define ARRAYSIZE 100
+#define SONGNAME_SIZE 25
+#define SONGARTIST_SIZE 25
+#define TRACK_NUMBER
+#define FILE_PATH "mp3_list.txt"
+
+void Show_mp3_library(void);
+void mp3_play(void);
+void add_song(void);
+void delete_song(void);
+
+
+typedef struct mp3rec
+{
+    char songname[SONGNAME_SIZE];
+    char artist[SONGARTIST_SIZE];
+    char track[30];
+    int minutes;
+    int seconds;
+} MP3REC;
+
+MP3REC song_list[ARRAYSIZE];
+int songcount = 0;
+
+char name_line[SONGNAME_SIZE + 2];
+char artist_line[SONGARTIST_SIZE + 2];
+int minutes;
+int seconds;
+
+int main(void)
+{
+    int menuchoice = 0;
+
+    while (menuchoice != 5)
+    {
+        printf(" ---------------------------------------------\n");
+        printf("|             ||MP3 Player||                  |\n");
+        printf(" ---------------------------------------------");
+
+        printf("\n1:~ Show the MP3 Library");
+        printf("\n2:~ Play an MP3 Song");
+        printf("\n3:~ Add Song to the MP3 Library");
+        printf("\n4:~ Delete Song in the MP3 Library");
+        printf("\n5:~ Quit the Program");
+
+        printf("\n\nEnter Choice From 1-5: ");
+        scanf("%d", &menuchoice);
+
+        switch (menuchoice)
+        {
+        case 1:
+            Show_mp3_library();
+            break;
+
+        case 2:
+            mp3_play();
+            break;
+
+        case 3:
+            add_song();
+            break;
+
+        case 4:
+            delete_song();
+            break;
+
+        case 5:
+            exit(0);
+            break;
+
+        default:
+            printf("\n[!] Invalid Choice: 1-5 Only Please\n\n");
+        }
+
+    };
+}
+
+
+void Show_mp3_library(void)
+{
+    printf("\n\n Show the MP3 Library\n\n");
+
+    FILE * fp = fopen(FILE_PATH, "r");
+    if (fp == NULL) {
+        printf("mp3_list를 열 수 없습니다.\n");
+    }
+    else {
+        printf("---------[ Library ]---------\n");
+        printf("MUSIC N. ARTIST - SONG \n");
+        printf("------------------------------\n");
+        char word[ARRAYSIZE];
+        int line_count = 0;
+        while (fgets(word, ARRAYSIZE, fp) != NULL) {
+            line_count++;
+            printf("MUSIC %d. %s", line_count, word);
+        }
+        fclose(fp);
+        printf("\n\n\n\n");       
+    }
+}
+
+void mp3_play(void)
+{
+    printf("\n\n Play an MP3 Song\n\n");
+    
+    int song_num;
+    char mp3filename[ARRAYSIZE];
+    char commandarray[ARRAYSIZE];
+    char song1[ARRAYSIZE] = "NewJeans - Hype Boy.mp3";
+    char song2[ARRAYSIZE] = "Surl - Cilla.mp3";
+    char song3[ARRAYSIZE] = "The Black Skirt - EVERYTHING.mp3";
+    char song4[ARRAYSIZE] = "Jaurim - 있지.mp3";
+    char song5[ARRAYSIZE] = "Actic Mokeys - 505.mp3";
+
+
+    printf("---------[ PLAYLIST ]---------\n");
+    printf("TRACK 1. NewJeans - Hype Boy\n");
+    printf("TRACK 2. Surl - Cilla\n");
+    printf("TRACK 3. The Black Skirt - EVERYTHING\n");
+    printf("TRACK 4. Jaurim - 있지\n");
+    printf("TRACK 5. Actic Mokeys - 505\n\n");
+
+    printf("play song number : ");
+    scanf("%d", &song_num);
+    if (song_num == 1)  strcpy(mp3filename, song1);
+    else if (song_num == 2)  strcpy(mp3filename, song2);
+    else if (song_num == 3)  strcpy(mp3filename, song3);
+    else if (song_num == 4)  strcpy(mp3filename, song4);
+    else if (song_num == 5)  strcpy(mp3filename, song5);
+    else {
+        printf("[!] Invlid Choice : 1-5 Only please");
+    }
+    //sprintf(commandarray, "C:\\mplayer\\\"%s\"", mp3filename); //바로 mp3 실행
+
+    sprintf(commandarray, "C:\\mplayer\\mplayer-64\\mplayer.exe \"C:\\mplayer\\%s\"", mp3filename);
+    //system("C:\\mplayer\\mplayer-64\\mplayer.exe \"C:\\mplayer\\NewJeans - Hype Boy.mp3\"");
+
+    printf("\nAttempting to Run Command: %s...\n\n", commandarray);
+    printf("ılı.lıllılı.ıllı.ılı.lıllılı.ıllı.♪~\n");
+    system(commandarray);
+
+    
+
+    int menuchoice;
+    printf("\n1: Play other song");
+    printf("\n2: Back To Menu");
+
+    printf("\n\nEnter Choice From 1-2: ");
+    scanf("%d", &menuchoice);
+
+    switch (menuchoice)
+    {
+        case 1:
+            mp3_play();
+            break;
+        case 2:
+            main();
+            break;       
+        default:
+            printf("\nInvalid Choice: 1-2 Only Please\n");
+            int menuchoice;
+            printf("\n1: Play other song");
+            printf("\n2: Back To Menu");
+
+            printf("\n\nEnter Choice From 1-2: ");
+            scanf("%d", &menuchoice);
+            break;
+    }
+  
+}
+
+void add_song(void)
+{
+    printf("\n\n add song to the mp3 library\n\n");
+    FILE* fp = fopen(FILE_PATH, "a");
+    if (fp == NULL) printf("mp3_list를 열 수 없습니다.\n");
+    else {
+        char input_artist[ARRAYSIZE];
+        char input_song[ARRAYSIZE];
+        printf("추가할 가수 : ");
+        //scanf("%s",song_list[0].artist);
+        scanf("%s", input_artist);
+
+        printf("곡 제목 : ");
+        //scanf("%s", song_list[0].)
+        scanf("%s", input_song);
+
+        fprintf(fp, "\n%s - %s", input_artist, input_song);
+        fclose(fp);
+    }
+}
+
+void delete_song(void)
+{
+    printf("\n\n Delete File\n\n");
+
+    int track_number;
+
+    int line_count = 1;
+    FILE* fp = fopen(FILE_PATH, "r");
+    FILE* tmpfile = fopen("temp.txt", "w");
+    if (fp == NULL || tmpfile == NULL) 
+        printf("파일을 열 수 없습니다.");
+
+    printf("Please Enter the track number that you wish to delete:");
+    scanf("%d", &track_number);
+
+    char word[ARRAYSIZE];
+    while (fgets(word, ARRAYSIZE, fp) != NULL) {
+
+        if (line_count == track_number) line_count++;
+        else {
+            fprintf(tmpfile, "%s", word);
+            line_count++;
+        }
+    }
+    fclose(fp);
+    fclose(tmpfile);
+
+    int nResult = remove(FILE_PATH);
+    if (nResult == 0) printf("원래 파일 삭제 완료\n");
+    else printf("다시 확인하십시오.\n");
+
+    rename("temp.txt", "mp3_list.txt");
+    printf("%d번 트랙이 삭제되었습니다.\n\n\n", track_number);
+}
