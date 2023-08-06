@@ -7,7 +7,6 @@ FILE* pFile;
 #define ARRAYSIZE 100
 #define SONGNAME_SIZE 25
 #define SONGARTIST_SIZE 25
-//#define SONGLENGTH_SIZE 25
 #define TRACK_NUMBER
 #define FILE_PATH "mp3_list.txt"
 
@@ -31,7 +30,6 @@ int songcount = 0;
 
 char name_line[SONGNAME_SIZE + 2];
 char artist_line[SONGARTIST_SIZE + 2];
-//char track_line[30 +2]
 int minutes;
 int seconds;
 
@@ -202,5 +200,3 @@ void delete_song(void)
     rename("temp.txt", "mp3_list.txt");
     printf("%d번 트랙이 삭제되었습니다.\n", track_number);
 }
-
-//for( Track_Number = Track_Number ; Track_Number <=Total Songs ; Track_Number ++)
