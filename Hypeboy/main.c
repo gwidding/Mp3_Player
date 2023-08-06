@@ -71,6 +71,7 @@ int main(void)
             break;
 
         case 5:
+            exit(0);
             break;
 
         default:

@@ -1,8 +1,8 @@
 a - aaaaaaaa
 b - bbbbbbbbbb
-c - ccccccccccccccccc
 d - dddddddddd
 e - sdfsfsdfdsfs
 last - last
 dance - 1
 me - song
+yehee - hehe
